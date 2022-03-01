@@ -26,10 +26,10 @@ public class TEST_DataFactory {
         return c;
     }
 
-    public static Contact createContact(String name, Boolean doInsert) {
+    /**public static Contact createContact(String name, Boolean doInsert) {
         Contact con = new Contact(Name = name);
         if (doInsert) 
             insert con;
         return con;
-    }
+    }**/
 }
