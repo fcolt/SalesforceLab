@@ -25,4 +25,11 @@ public class TEST_DataFactory {
             insert c;
         return c;
     }
+
+    public static Contact createContact(String name, Boolean doInsert) {
+        Contact con = new Contact(Name = name);
+        if (doInsert) 
+            insert con;
+        return con;
+    }
 }
