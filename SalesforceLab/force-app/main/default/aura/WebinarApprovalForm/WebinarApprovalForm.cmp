@@ -1,0 +1,64 @@
+<aura:component 
+    description="WebinarApprovalForm"
+    controller="AuraWebinarController"
+    implements="flexipage:availableForAllPageTypes,force:hasRecordId"
+    access="global">
+
+    <aura:attribute access="public" type="String" name="webinarsLimit" default="10"/>
+    <aura:attribute access="public" type="Webinar__c[]" name="webinars"/>
+    <aura:attribute access="public" type="Webinar__c" name="selectedWebinar"/>
+    <aura:attribute access="private" type="Object[]" name="columns"/>
+
+    <aura:attribute access="private" type="Boolean" name="isModalOpen"/>
+    <aura:attribute access="private" type="Boolean" name="isApprove" default="false" />
+
+    <aura:handler event="c:registerEvent" action="{!c.handleRegisterEvent}"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <lightning:notificationsLibrary aura:id="notifLibrary"/>
+
+    <lightning:datatable 
+        keyField="Id" 
+        columns="{!v.columns}" 
+        data="{!v.webinars}" 
+        onrowaction="{!c.onRowActions}"
+        showRowNumberColumn="true" 
+        hideCheckboxColumn="true"/>
+    
+    <aura:if isTrue="{!v.isModalOpen}">  
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                            onclick="{!c.closeModel}"
+                                            alternativeText="close"
+                                            variant="bare-inverse"
+                                            class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Confirm action</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <aura:if isTrue="{!v.isApprove}">
+                        <p>
+                            <b>Are you sure you want to approve this record?</b>
+                        </p>
+                        <aura:set attribute="else">
+                            <p>Are you sure you want to reject this record?</p>
+                        </aura:set>
+                    </aura:if>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral"
+                                        label="Cancel"
+                                        title="Cancel"
+                                        onclick="{!c.closeModal}"/>
+                    <lightning:button variant="brand"
+                                        label="OK"
+                                        title="OK"
+                                        onclick="{!c.submitDetails}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

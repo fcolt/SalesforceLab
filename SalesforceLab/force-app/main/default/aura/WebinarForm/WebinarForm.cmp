@@ -1,0 +1,18 @@
+<aura:component description="WebinarForm" implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+    <aura:attribute name="fields"
+                    type="String[]"
+                    default="['Name','Number_of_participants__c', 'Total_number_of_seats__c', 'Status__c', 'Cost__c', 'Approval_Status__c', 'Start_Date__c', 'End_Date__c']"
+    />
+    <aura:attribute name="recordId" type="String"/>
+
+    <aura:registerEvent name="myEvent" type="c:registerEvent"/>
+
+    <lightning:card title="Create a Webinar!">
+        <lightning:notificationsLibrary aura:id="notifLib"/>
+        <lightning:recordForm
+                objectApiName="Webinar__c"
+                fields="{!v.fields}"
+                onsuccess="{!c.doInit}"
+        />
+    </lightning:card>
+</aura:component>
